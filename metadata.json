@@ -1,0 +1,6 @@
+{
+  "name": "DevPortal UI",
+  "description": "An interactive design system playground, UI component documentation browser, and code snippet manager.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
