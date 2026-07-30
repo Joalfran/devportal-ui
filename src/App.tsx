@@ -21,6 +21,17 @@ export default function App() {
   // Notification state
   const [notifications, setNotifications] = React.useState<Notification[]>([]);
 
+  // Mobile/tablet navigation drawer state
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState<boolean>(false);
+
+  // Lock body scroll while the mobile drawer is open
+  React.useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
   // Add toast notification helper
   const addNotification = (message: string, type: 'success' | 'info' | 'error' = 'info') => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -95,6 +106,8 @@ export default function App() {
         cartCount={cartCount}
         onClearCart={handleClearCart}
         addNotification={addNotification}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
       />
 
       {/* BODY WITH SIDEBAR AND MAIN CONTENT */}
@@ -107,6 +120,8 @@ export default function App() {
           activeSubSection={activeSubSection}
           setActiveSubSection={setActiveSubSection}
           addNotification={addNotification}
+          isOpen={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
         />
 
         {/* MAIN DISPLAY CANVAS */}
