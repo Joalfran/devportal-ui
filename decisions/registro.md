@@ -20,6 +20,13 @@ Rama `mobile-navigation`. En vez de crear un componente separado para el drawer 
 Estado `mobileMenuOpen` vive en `App.tsx` (mismo patrón que el resto del estado) y se pasa a `Header` (botón hamburguesa, `lg:hidden`) y `Sidebar` (lee `isOpen`, expone `onClose`). Cierres: click en backdrop, click en cualquier ítem de nav/sub-nav, tecla Escape. Scroll del body bloqueado mientras el drawer está abierto (efecto en `App.tsx`).
 Nota: se evitó deliberadamente usar las clases `animate-fade-in`/`animate-slide-in` para el backdrop/drawer porque no están definidas en ningún lado del proyecto (ver gotchas) — se usó `transition-transform` real de Tailwind.
 
+## 2026-07-29 — Ruta aislada /demo-day sin router
+Presentación del Demo Day como vista independiente (`src/components/DemoDayView.tsx`). En vez de añadir react-router (prohibido crear dependencias), `src/main.tsx` bifurca por `window.location.pathname`: `/demo-day` renderiza `DemoDayView`, cualquier otra ruta renderiza `App`. Cero cambios en `App.tsx` y el flujo principal.
+El estado de la diapositiva actual vive dentro de `DemoDayView` (excepción consciente a la regla "estado global en App.tsx": la presentación es una ruta aislada que no comparte estado con la app).
+Se añadió `vercel.json` con rewrite `/demo-day → /index.html` porque Vercel no hace fallback SPA por defecto en deploys estáticos de Vite. En dev, Vite ya sirve `index.html` para cualquier ruta.
+Accesibilidad verificada en navegador: teclado (← →), foco visible (outline 4px `secondary`), `motion-safe:` para la animación de fade (keyframe `demo-day-fade` en `index.css`), contraste ≥7.7:1 en todos los pares usados.
+Gotcha de layout: con `flex-col` + zona central scrolleable, el `main` necesita `min-h-0` y el contenedor `h-dvh` (no `min-h-dvh`) para que la barra de controles no se salga del viewport en diapositivas altas.
+
 ## Decisiones heredadas del código (pre-existentes, respetarlas)
 - Estado global centralizado en `App.tsx` con props drilling; sin librería de estado. App pequeña, no lo necesita.
 - Datos 100% mock dentro de cada vista; sin capa de servicios ni fetch.

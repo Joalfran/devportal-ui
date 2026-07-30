@@ -66,6 +66,16 @@
   background: #8f909e;
 }
 
+/* Fade de diapositivas del Demo Day (solo se aplica vía motion-safe:) */
+@keyframes demo-day-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Custom glow effects */
 .glass-panel {
   background: rgba(23, 31, 51, 0.7);

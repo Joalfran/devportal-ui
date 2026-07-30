@@ -8,6 +8,7 @@
 - Verificación visual en navegador completada (2026-07-29): probado en 1440px (sidebar fijo, sin hamburguesa), 768px y 375px (drawer + backdrop). Confirmado: apertura/cierre del drawer, navegación con cierre automático, cierre por Escape y por clic en backdrop, scroll lock del body aplicado/restaurado.
 - Dependencias instaladas (`node_modules` presente desde 2026-07-22).
 - Dev server verificado en `http://localhost:3000/` (Vite 6.4.3).
+- Presentación Demo Day en ruta aislada `/demo-day` (2026-07-29): 6 diapositivas, navegación con flechas ← →, botón a la demo viva (Vercel), responsive 375/768/1440, WCAG AA verificado (contraste, foco, reduced-motion), 0 errores de consola. Bifurcación por pathname en `main.tsx` + `vercel.json` con rewrite para producción. `npm run lint` limpio.
 - Documentación generada: `diagrama-arquitectura.html` (árbol de componentes + 4 flujos de datos).
 - Sistema de memoria persistente creado (AGENTS.md + carpetas).
 
