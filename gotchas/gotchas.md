@@ -12,3 +12,4 @@
 - Dev server expone `--host=0.0.0.0`: accesible desde la red local.
 - Imágenes de las plantillas son URLs de `lh3.googleusercontent.com`; si caducan, las cards salen rotas (no es bug del código).
 - En `App.tsx`, `removeNotification` tiene una condición redundante (`prev.some(...)`) — funciona, pero no imitar ese patrón.
+- Las clases `animate-fade-in`, `animate-slide-in`, `animate-scale-up` se usan en varias vistas (App.tsx, ComponentsView, etc.) pero **no están definidas en ningún lado** (no hay `@keyframes` ni theme extendido en `index.css`, no hay `tailwind.config`). Son no-ops silenciosos hoy. Al añadir animaciones nuevas, usar utilidades reales de Tailwind (`transition-transform`, `transition-opacity`, `duration-*`) en vez de estas clases.

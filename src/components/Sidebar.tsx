@@ -9,6 +9,8 @@ interface SidebarProps {
   activeSubSection?: string;
   setActiveSubSection?: (sub: string) => void;
   addNotification: (msg: string, type: 'success' | 'info') => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export default function Sidebar({
@@ -16,8 +18,19 @@ export default function Sidebar({
   setActiveView,
   activeSubSection,
   setActiveSubSection,
-  addNotification
+  addNotification,
+  isOpen,
+  onClose
 }: SidebarProps) {
+  // Close the mobile/tablet drawer on Escape
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
   const navItems = [
     { id: 'foundations' as ActiveView, label: 'Foundations', icon: Layers, desc: 'Visual & tech foundations' },
     { id: 'components' as ActiveView, label: 'Components', icon: Puzzle, desc: 'Modular technical components' },
@@ -28,6 +41,7 @@ export default function Sidebar({
   const handleNavClick = (viewId: ActiveView) => {
     setActiveView(viewId);
     addNotification(`Mostrando sección: ${viewId.charAt(0).toUpperCase() + viewId.slice(1)}`, 'info');
+    onClose();
   };
 
   const handleSubClick = (sectionId: string) => {
@@ -39,10 +53,30 @@ export default function Sidebar({
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+    onClose();
   };
 
   return (
-    <aside className="w-64 bg-surface-container border-r border-outline-variant flex flex-col h-[calc(100vh-64px)] shrink-0 sticky top-16 select-none">
+    <>
+      {/* Backdrop (mobile/tablet only, dims content below the header while the drawer is open) */}
+      {isOpen && (
+        <div
+          onClick={onClose}
+          aria-hidden="true"
+          className="lg:hidden fixed top-16 inset-x-0 bottom-0 z-30 bg-black/60"
+        />
+      )}
+
+      <aside
+        id="mobile-sidebar"
+        role="dialog"
+        aria-modal={isOpen ? true : undefined}
+        aria-label="Navegación principal"
+        className={`w-72 lg:w-64 bg-surface-container border-r border-outline-variant flex flex-col h-[calc(100vh-64px)] shrink-0 select-none
+          fixed top-16 left-0 bottom-0 z-40 transition-transform duration-300 ease-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:sticky lg:top-16 lg:translate-x-0 lg:z-auto`}
+      >
       {/* Brand Header */}
       <div className="p-5 border-b border-outline-variant/30">
         <h2 className="font-sans text-sm font-bold uppercase tracking-wider text-on-surface-variant">
@@ -94,7 +128,10 @@ export default function Sidebar({
               return (
                 <button
                   key={demo.id}
-                  onClick={() => setActiveSubSection && setActiveSubSection(demo.id)}
+                  onClick={() => {
+                    if (setActiveSubSection) setActiveSubSection(demo.id);
+                    onClose();
+                  }}
                   className={`w-full block px-6 py-1.5 text-left text-xs transition-colors ${
                     isSubActive
                       ? 'text-secondary font-semibold'
@@ -157,6 +194,7 @@ export default function Sidebar({
           <span>Support</span>
         </button>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }

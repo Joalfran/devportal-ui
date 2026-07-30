@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Moon, Sun, Globe, Github, ShoppingCart } from 'lucide-react';
+import { Search, Moon, Sun, Globe, Github, ShoppingCart, Menu, X } from 'lucide-react';
 import { ActiveView } from '../types';
 
 interface HeaderProps {
@@ -9,6 +9,8 @@ interface HeaderProps {
   cartCount: number;
   onClearCart: () => void;
   addNotification: (msg: string, type: 'success' | 'info') => void;
+  mobileMenuOpen: boolean;
+  setMobileMenuOpen: (open: boolean) => void;
 }
 
 export default function Header({
@@ -17,7 +19,9 @@ export default function Header({
   setSearchQuery,
   cartCount,
   onClearCart,
-  addNotification
+  addNotification,
+  mobileMenuOpen,
+  setMobileMenuOpen
 }: HeaderProps) {
   const [isDark, setIsDark] = React.useState(true);
   const [language, setLanguage] = React.useState('ES');
@@ -57,6 +61,17 @@ export default function Header({
   return (
     <header className="sticky top-0 z-50 w-full h-16 bg-surface-container border-b border-outline-variant flex justify-between items-center px-4 md:px-6">
       <div className="flex items-center gap-6 md:gap-8">
+        {/* Mobile/Tablet hamburger menu toggle */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-sidebar"
+          aria-label={mobileMenuOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'}
+          className="lg:hidden p-2 -ml-2 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors"
+        >
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
+
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-primary font-bold text-lg shadow-inner">
             D
