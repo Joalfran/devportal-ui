@@ -150,8 +150,9 @@ export default function Header({
 
         {/* Github Button */}
         <a
-          href="https://github.com"
+          href="https://github.com/Joalfran/devportal-ui"
           target="_blank"
+          rel="noopener noreferrer"
           referrerPolicy="no-referrer"
           className="bg-primary text-on-primary hover:bg-primary/90 px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold hover:shadow-lg transition-all hidden sm:flex items-center gap-1.5"
         >

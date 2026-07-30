@@ -11,15 +11,29 @@ export default function Footer() {
           </p>
         </div>
         <div className="flex gap-6">
-          {['GitHub', 'NPM', 'Community', 'Discord'].map((link) => (
-            <a
-              key={link}
-              href="#"
-              className="text-xs font-mono text-on-surface-variant hover:text-secondary transition-colors"
-            >
-              {link}
+          <a
+            href="https://github.com/Joalfran/devportal-ui"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-mono text-on-surface-variant hover:text-secondary transition-colors"
+          >
+            GitHub
+          </a>
+          {/*
+            Enlaces sin destino real todavía (no hay paquete NPM publicado ni
+            comunidad/Discord del proyecto). Descomentar y completar el href
+            cuando existan.
+
+            <a href="https://www.npmjs.com/package/TODO" target="_blank" rel="noopener noreferrer" className="text-xs font-mono text-on-surface-variant hover:text-secondary transition-colors">
+              NPM
             </a>
-          ))}
+            <a href="TODO" target="_blank" rel="noopener noreferrer" className="text-xs font-mono text-on-surface-variant hover:text-secondary transition-colors">
+              Community
+            </a>
+            <a href="https://discord.gg/TODO" target="_blank" rel="noopener noreferrer" className="text-xs font-mono text-on-surface-variant hover:text-secondary transition-colors">
+              Discord
+            </a>
+          */}
         </div>
       </div>
     </footer>
